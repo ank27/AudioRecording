@@ -25,8 +25,6 @@ public class Data {
         context = cont;
         mainApp = (AudioApplication) cont;
         mNetworker = Networker.getInstance();
-//        mRealm = Realm.getDefaultInstance();
-        //searchResult = null;
         connectionDetector=new ConnectionDetector(cont);
         mNetworker.loadJson(context);
     }

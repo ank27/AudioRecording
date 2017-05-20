@@ -15,8 +15,8 @@ import com.audioapplication.Models.SignInRequest;
 import com.audioapplication.Models.SignInResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.MediaType;
-import com.squareup.okhttp.RequestBody;
+//import com.squareup.okhttp.MediaType;
+//import com.squareup.okhttp.RequestBody;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import de.greenrobot.event.EventBus;
 import io.realm.Realm;
@@ -38,16 +39,13 @@ import okhttp3.Interceptor;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 
-import retrofit.Callback;
-import retrofit.RequestInterceptor;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.OkClient;
-import retrofit.client.Response;
-import retrofit.converter.GsonConverter;
-import retrofit.mime.TypedByteArray;
-import retrofit.mime.TypedFile;
-import retrofit.mime.TypedInput;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.audioapplication.Networker.NetworkConfigs.DOMAIN_API_URL;
 
@@ -65,49 +63,44 @@ public class Networker {
     private static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     private Networker() {
-        Gson gson = new GsonBuilder()
-                .setDateFormat(DATE_FORMAT)
-                .create();
-
         String mainUrl = DOMAIN_API_URL;
-        RequestInterceptor requestInterceptor = new RequestInterceptor() {
+
+        //create service for retrofit api
+        OkHttpClient.Builder builder = new OkHttpClient().newBuilder();
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        builder.addInterceptor(new Interceptor() {
             @Override
-            public void intercept(RequestFacade request) {
-                request.addHeader("Content-Type","application/json");
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request().newBuilder().addHeader("Content-Type", "application/json").build();
+                return chain.proceed(request);
             }
-        };
+        });
+        builder.addInterceptor(interceptor);
+        OkHttpClient client = builder.build();
 
-        RequestInterceptor requestInterceptor_multipart= new RequestInterceptor() {
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(mainUrl)
+                .client(client).addConverterFactory(GsonConverterFactory.create()).build();
+
+        mApiService =  retrofit.create(APIService.class);
+
+
+        //create api service for multipart data
+        OkHttpClient.Builder builder_multi = new OkHttpClient().newBuilder();
+        builder_multi.addInterceptor(new Interceptor() {
             @Override
-            public void intercept(RequestFacade request) {
-                request.addHeader("Content-Type","application/json");
-                request.addHeader("token", AudioApplication.data.loadData("access_token"));
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request().newBuilder().addHeader("Content-Type", "application/json")
+                        .addHeader("token",AudioApplication.data.loadData("access_token"))
+                        .build();
+                return chain.proceed(request);
             }
-        };
+        });
+        builder_multi.addInterceptor(interceptor);
+        OkHttpClient client_multi = builder_multi.build();
+        Retrofit retrofit_multi = new Retrofit.Builder().baseUrl(mainUrl).client(client_multi).addConverterFactory(GsonConverterFactory.create()).build();
 
-        RestAdapter rest = new RestAdapter.Builder()
-                .setClient(new OkClient())
-                .setEndpoint(mainUrl)
-                .setConverter(new GsonConverter(gson))
-                .setRequestInterceptor(requestInterceptor)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-
-
-        RestAdapter restAdapter_multipart = new RestAdapter.Builder()
-                .setClient(new OkClient())
-                .setEndpoint(mainUrl)
-                .setConverter(new GsonConverter(gson))
-                .setRequestInterceptor(requestInterceptor_multipart)
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .build();
-
-        mApiService = rest.create(APIService.class);
-        apiService_multipart = restAdapter_multipart.create(APIService.class);
-
-        mMainHandler = new Handler(Looper.getMainLooper());
-        mExecutorService = Executors.newSingleThreadExecutor();
+        myApi_service =  retrofit_multi.create(APIService.class);
 
     }
 
@@ -120,104 +113,65 @@ public class Networker {
         body.put("user_id", user_id);
         body.put("auth", auth_token);
 
-        mApiService.signIn(body, new Callback<SignInResponse>() {
+        Call<SignInResponse> call = mApiService.signIn(body);
+        call.enqueue(new Callback<SignInResponse>() {
             @Override
-            public void success(SignInResponse signInResponse, Response response) {
+            public void onResponse(Call<SignInResponse> call, retrofit2.Response<SignInResponse> response) {
                 Log.d(TAG, "signIn success ");
-                if (signInResponse.isSuccess()) {
+                if (response.body().isSuccess()) {
                     AudioApplication.data.saveData("user_login","true");
-                    if (signInResponse.getPayload().getEmail()!=null) {
-                        AudioApplication.data.saveData("user_email", signInResponse.getPayload().getEmail());
+                    if (response.body().getPayload().getEmail()!=null) {
+                        AudioApplication.data.saveData("user_email", response.body().getPayload().getEmail());
                     }else {
                         AudioApplication.data.saveData("user_email", "");
                     }
-                    AudioApplication.data.saveData("user_name",signInResponse.getPayload().getName());
-                    AudioApplication.data.saveData("user_id",signInResponse.getPayload().getUser_id());
-                    AudioApplication.data.saveData("access_token",signInResponse.getPayload().access_token);
+                    AudioApplication.data.saveData("user_name",response.body().getPayload().getName());
+                    AudioApplication.data.saveData("user_id",response.body().getPayload().getUser_id());
+                    AudioApplication.data.saveData("access_token",response.body().getPayload().access_token);
                     EventBus.getDefault().post(new NetworkEvent("signin",true));
                 }
             }
 
             @Override
-            public void failure(RetrofitError error) {
-                Log.d(TAG, "signIn error " + error.getMessage());
+            public void onFailure(Call<SignInResponse> call, Throwable t) {
+                Log.d(TAG, "signIn error " + t.getMessage());
                 EventBus.getDefault().post(new NetworkEvent("signin", false));
             }
         });
     }
 
-//    public void postAudio(File file) {
-//        TypedFile typedFile = new TypedFile("multipart/form-data", file);
-//        Log.d(TAG,"typedFile ="+typedFile.toString());
-//        Log.d(TAG,"typedFile nam ="+typedFile.fileName());
-//        apiService_multipart.postAudio(typedFile, new Callback<Void>() {
-//            @Override
-//            public void success(Void aVoid, Response response) {
-//                Log.d(TAG, "postAudio success - ");
-//                EventBus.getDefault().post(new NetworkEvent("post_audio",true));
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError e) {
-//                EventBus.getDefault().post(new NetworkEvent("post_audio",false));
-//            }
-//        });
-//    }
-
     public void postAudio(File file) {
-        RequestBody temp = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        apiService_multipart.postAudio(temp, new Callback<AudioResponse>() {
+        HashMap<String,String> body = new HashMap<>();
+        byte[] bytes = getByteArray(file);
+        String file_str = new String(bytes);
+        body.put("audio_data",file_str);
+        Call<AudioResponse> responseCall = myApi_service.postAudio(body);
+        responseCall.enqueue(new Callback<AudioResponse>() {
             @Override
-            public void success(AudioResponse audioResponse, Response response) {
-                Log.d(TAG, "postAudio success - ");
-                if (audioResponse.isSuccess()) {
-                    AudioPayload payload = audioResponse.getPayload();
-                    Log.d(TAG,"audioPayload =" +payload.toString());
+            public void onResponse(Call<AudioResponse> call, retrofit2.Response<AudioResponse> response) {
+                if (response.body().isSuccess()) {
+                    Log.d(TAG, "response success");
+                    Log.d(TAG, "response =" + response.body());
+                    Log.d(TAG, "payload =" + response.body().getPayload());
+
+                    AudioPayload payload = response.body().getPayload();
                     mRealm = Realm.getDefaultInstance();
                     mRealm.beginTransaction();
                     mRealm.copyToRealmOrUpdate(payload);
                     mRealm.commitTransaction();
                     mRealm.close();
                     EventBus.getDefault().post(new NetworkEvent("post_audio", true));
-                }else {
+                } else {
                     EventBus.getDefault().post(new NetworkEvent("post_audio", false));
                 }
             }
-
             @Override
-            public void failure(RetrofitError e) {
-                Log.d(TAG, "postAudio failure - "+e.getMessage());
-                EventBus.getDefault().post(new NetworkEvent("post_audio",false));
+            public void onFailure(Call<AudioResponse> call, Throwable t) {
+                EventBus.getDefault().post(new NetworkEvent("post_audio", false));
+                Log.d(TAG,"response failed");
             }
         });
     }
-
-//    public void getAudio() {
-//        myApi_service.getAudio(new Callback<AudioResponse>() {
-//            @Override
-//            public void success(AudioResponse audioResponse, Response response) {
-//                Log.d(TAG, "postAudio success - ");
-//                if (audioResponse.isSuccess()) {
-//                    AudioPayload payload = audioResponse.getPayload();
-//                    Log.d(TAG,"audioPayload =" +payload.toString());
-//                    mRealm = Realm.getDefaultInstance();
-//                    mRealm.beginTransaction();
-//                    mRealm.copyToRealmOrUpdate(payload);
-//                    mRealm.commitTransaction();
-//                    mRealm.close();
-//                    EventBus.getDefault().post(new NetworkEvent("post_audio", true));
-//                }else {
-//                    EventBus.getDefault().post(new NetworkEvent("post_audio", false));
-//                }
-//            }
-//
-//            @Override
-//            public void failure(RetrofitError e) {
-//                Log.d(TAG, "postAudio failure - "+e.getMessage());
-//                EventBus.getDefault().post(new NetworkEvent("post_audio",false));
-//            }
-//        });
-//    }
 
     public String loadJSONFromAsset(Context context) {
         String json = null;

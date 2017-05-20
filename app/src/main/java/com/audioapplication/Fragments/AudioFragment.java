@@ -2,18 +2,12 @@ package com.audioapplication.Fragments;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,46 +15,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.audioapplication.Adapter.AudioAdapter;
 import com.audioapplication.AudioApplication;
-import com.audioapplication.MainActivity;
 import com.audioapplication.Models.AudioPayload;
 import com.audioapplication.Networker.NetworkEvent;
 import com.audioapplication.Networker.Networker;
 import com.audioapplication.R;
 import com.audioapplication.Utils.MarshMallowPermission;
 import com.audioapplication.Utils.Toaster;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
-
-import org.apache.http.Header;
-import org.apache.http.entity.ContentType;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.protocol.HTTP;
-import org.json.JSONObject;
-
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import de.greenrobot.event.EventBus;
 import io.realm.Realm;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 public class AudioFragment extends Fragment {
     Activity activity;
@@ -134,10 +107,7 @@ public class AudioFragment extends Fragment {
         btn_record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG,"record clicked");
                 if (marshMallowPermission.checkPermissionForExternalStorage() && marshMallowPermission.checkPermissionForRecordAudio()) {
-                    Log.d(TAG,"absolute_path = "+Environment.getExternalStorageDirectory().getAbsolutePath());
-                    Log.d(TAG,"randomFileNmae = "+CreateRandomAudioFileName(5));
                     audioSavePathInDevice = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + CreateRandomAudioFileName(5) + "AudioRecording.wav";
                     Log.d(TAG,"AudioPath = "+audioSavePathInDevice);
                     MediaRecorderReady();
@@ -157,19 +127,12 @@ public class AudioFragment extends Fragment {
                     timer = new CountDownTimer(30000,100) {
                         @Override
                         public void onTick(long millisUntilFinished) {
-                            Log.d(TAG,"countDown "+millisUntilFinished);
                             isRunning[0] =true;
                             long ms = millisUntilFinished;
                             String second_text = String.format("%02d", TimeUnit.MILLISECONDS.toSeconds(ms) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(ms)));
-//                            String minute_text = String.format("%02d", TimeUnit.MILLISECONDS.toMinutes(ms) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(ms)));
-                           String countingtext = second_text+" sec remaining";
-//                            String countingtext = String.format("%02d\' %02d\"",
-//                                    TimeUnit.MILLISECONDS.toMinutes(ms) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(ms)),
-//                                    TimeUnit.MILLISECONDS.toSeconds(ms) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(ms)));
-
+                            String countingtext = second_text+" sec remaining";
                             counter_time.setText(countingtext);
                         }
-
                         @Override
                         public void onFinish() {
                             isRunning[0]=false;
@@ -208,49 +171,8 @@ public class AudioFragment extends Fragment {
         no_audio_layout.setVisibility(View.GONE);
         audio_layout.setVisibility(View.GONE);
         progress_layout.setVisibility(View.VISIBLE);
-
-        File file = new File(audioSavePathInDevice);
-        Log.d(TAG,"file = "+file.toString());
-
-//        RequestParams params = new RequestParams();
-////        params.put("method", "POST");
-//
-////        JSONObject object= new JSONObject();
-//
-////        object.put("audio_data",file);
-////        try {
-////            params.put("audio_data", file);
-////        } catch (FileNotFoundException e) {
-////            e.printStackTrace();
-////        }
-//
-//        byte[] myByteArray = getByteArray(file);
-//        Log.d(TAG,"byteArray = "+myByteArray.toString());
-////        RequestParams params = new RequestParams();
-//        params.put("audio_data", new ByteArrayInputStream(myByteArray), "my.wav");
-//
-//        Log.d(TAG,"Upload audio "+params.toString());
-//        params.setHttpEntityIsRepeatable(true);
-//        AsyncHttpClient client = new AsyncHttpClient();
-//
-//        client.addHeader("Content-type","application/json");
-//        client.addHeader("token", AudioApplication.data.loadData("access_token"));
-//        client.post("http://54.169.234.17:8083/v1/save_audio/", params, new AsyncHttpResponseHandler() {
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-//                Log.d(TAG,"audio uploaded");
-//                Log.d(TAG,"responseBody ="+responseBody.toString());
-//            }
-//
-//            @Override
-//            public void onFailure(int arg0, Header[] arg1, byte[] arg2, Throwable arg3) {
-//                Log.d(TAG,"unable to upload audio "+arg1.length);
-//            }
-//        });
-//
-
+        final File file = new File(audioSavePathInDevice);
         Networker.getInstance().postAudio(file);
-//        Networker.getInstance().getAudio();
     }
 
     private void MediaRecorderReady() {
@@ -271,32 +193,10 @@ public class AudioFragment extends Fragment {
         return stringBuilder.toString();
     }
 
-//    private void updateUI() {
-//        progress_layout.setVisibility(View.GONE);
-//        audio_layout.setVisibility(View.VISIBLE);
-//    }
-
     @Override
     public void onDestroy() {
         EventBus.getDefault().unregister(this);
         super.onDestroy();
-    }
-
-
-    public byte[] getByteArray(File file) {
-        byte[] bytesArray = new byte[(int) file.length()];
-        FileInputStream fis = null;
-        try {
-            fis = new FileInputStream(file);
-            fis.read(bytesArray);
-            fis.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return bytesArray;
     }
 
     public void onEvent(NetworkEvent event) {
@@ -306,7 +206,7 @@ public class AudioFragment extends Fragment {
                 processAudio();
             } else {
                 Log.i(TAG, "post_audio failed");
-                Toaster.toast("Couldn't upload audio...try again later!!!");
+                Toaster.showToast("Couldn't upload audio...try again later!!!");
                 processAudio();
             }
         }

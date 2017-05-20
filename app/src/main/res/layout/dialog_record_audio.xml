@@ -15,13 +15,12 @@
         android:src="@drawable/com_facebook_close"/>
     <TextView
         android:id="@+id/text_view"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:text="@string/record_audio"
-        android:textSize="18sp"
-        android:layout_centerHorizontal="true"
-        style="@style/TextViewAppearanceLarge"
+        android:textSize="16sp"
+        android:layout_marginLeft="20dp"
+        style="@style/TextViewAppearanceMediumBold"
         android:textColor="@color/black"
-        android:gravity="center"
         android:layout_height="wrap_content" />
     <ImageView
         android:layout_below="@+id/text_view"

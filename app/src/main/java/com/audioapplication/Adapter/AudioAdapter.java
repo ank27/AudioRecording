@@ -3,6 +3,7 @@ package com.audioapplication.Adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +15,13 @@ import com.audioapplication.Models.Product;
 import com.audioapplication.R;
 import com.bumptech.glide.Glide;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
 public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.ViewHolder> {
     List<AudioPayload> audioList;
-    Context context;
     Activity activity;
     LayoutInflater mInflater;
 
@@ -40,7 +42,16 @@ public class AudioAdapter extends RecyclerView.Adapter<AudioAdapter.ViewHolder> 
     public void onBindViewHolder(final AudioAdapter.ViewHolder holder, int position) {
         AudioPayload audioPayload=audioList.get(position);
         holder.file_name.setText(audioPayload.getFilename());
-        holder.created_date.setText("Created at :" +audioPayload.getCreated().substring(0,10));
+        String time = audioPayload.getCreated().substring(11,16);
+        Date dateObj;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("H:mm");
+            dateObj = sdf.parse(time);
+            holder.created_date.setText("Created at :" +audioPayload.getCreated().substring(0,10) +" - "+new SimpleDateFormat("K:mm a").format(dateObj));
+        }catch (Exception e){
+            e.printStackTrace();
+            holder.created_date.setText("Created at : " +audioPayload.getCreated().substring(0,10));
+        }
     }
 
     public void add(AudioPayload payload){

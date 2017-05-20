@@ -162,12 +162,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-//        if(opened_fragment!=0){
-            Log.d(TAG,"backpress-explore not null");
-            if (ProductInfoFragment.isFragmentVisible) {
-                HomeFragment.viewpagerLender.setCurrentItem(0);
-                opened_fragment = 0;
-//            }
+        if (ProductInfoFragment.isFragmentVisible) {
+            HomeFragment.viewpagerLender.setCurrentItem(0);
+            opened_fragment = 0;
         }else {
             should_go_back=true;
             if(should_go_back) {

@@ -5,5 +5,4 @@ public interface NetworkConfigs {
     String SIGN_IN = "/v1/login/";
     String PRODUCTS = "/v1/products";
     String POST_AUDIO = "/v1/save_audio/";
-    String AUDIO_DATA = "/audio_data";
 }

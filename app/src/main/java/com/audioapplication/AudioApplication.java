@@ -39,12 +39,9 @@ public class AudioApplication extends Application {
         } catch (RealmMigrationNeededException e){
             try {
                 Realm.deleteRealm(realmConfiguration);
-                //Realm file has been deleted.
-                //return Realm.getInstance(realmConfiguration);
                 return realmConfiguration;
             } catch (Exception ex){
                 throw ex;
-                //No Realm file to remove.
             }
         }
     }

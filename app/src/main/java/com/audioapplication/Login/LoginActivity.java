@@ -96,7 +96,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         googleButton.setOnClickListener(this);
 
         EventBus.getDefault().register(this);
-        //register facebook loginManager callback which provide user login data
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -155,25 +154,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     protected void onStart() {
         super.onStart();
-//        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-//        if (opr.isDone()) {
-//            // If the user's cached credentials are valid, the OptionalPendingResult will be "done" and the GoogleSignInResult will be available instantly.
-//            Log.d(TAG, "Got cached sign-in");
-//            GoogleSignInResult result = opr.get();
-//            handleSignInResult(result);
-//        } else {
-//            // If the user has not previously signed in on this device or the sign-in has expired, this asynchronous branch will attempt to sign in the user silently.  Cross-device
-//            // single sign-on will occur in this branch.
-//            showProgressDialog();
-//            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-//                @Override
-//                public void onResult(GoogleSignInResult googleSignInResult) {
-//                    hideProgressDialog();
-//                    handleSignInResult(googleSignInResult);
-//                }
-//            });
-//        }
-
     }
 
 
@@ -211,17 +191,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //handle sign in success or failure, if Signed in successfully, get user params and send it to server.
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        hideProgressDialog();
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             if (acct.getId()!=null) {
                 uid = acct.getId();
             }
-
+            //get access token
             new RetrieveTokenTask().execute(acct.getEmail());
-
-            Log.d(TAG,"googleAccInfo= "+acct.toString());
-            Log.d(TAG,"googleSignIn result - uid = "+uid);
-
         } else {
             Toaster.showToast("Error initializing google sign-in");
             updateUI(false);
