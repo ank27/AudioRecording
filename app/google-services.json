@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "392310670767",
+    "project_id": "firebase-audioapplication"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:392310670767:android:045af377326d8aa9",
+        "android_client_info": {
+          "package_name": "com.audioapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "392310670767-4b6j1u8mpta8rgfp2ng3pboctoe1jqe0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.audioapplication",
+            "certificate_hash": "ec83da15f3e3349304f710d49b0ada7d72e51fa1"
+          }
+        },
+        {
+          "client_id": "392310670767-2q553etk6g5684dv0jukbn03h7ueh8cj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAyPW5dLNR76GNGJ3i_aFRaxT65GFBYZMM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

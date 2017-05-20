@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AudioApplication</string>
+    <string name="facebook_app_id">308851482881764</string>
+    <string name="server_client_id">392310670767-2q553etk6g5684dv0jukbn03h7ueh8cj.apps.googleusercontent.com</string>
+    <string name="server_client_secret">NPblmwJn_ziKyTK_Qn6CmcIa</string>
+    <string name="record_audio">Click on record to start recording</string>
+</resources>

@@ -1,0 +1,66 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinate_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.audioapplication.Login.LoginActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ic_login_background">
+        <ProgressBar
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:indeterminateTint="@color/white"
+            android:indeterminateTintMode="src_in"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:id="@+id/progressBar"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:gravity="center"
+            android:visibility="visible"
+            android:layout_alignParentBottom="true">
+            <LinearLayout
+                android:id="@+id/provider_layout"
+                android:layout_width="match_parent"
+                android:weightSum="2"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:text="Please login"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"
+                    style="@style/TextViewAppearanceLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/facebookButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="facebook"
+                    android:layout_marginBottom="10dp"
+                    android:textAllCaps="false" />
+                <TextView
+                    android:text="Or"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    style="@style/TextViewAppearanceLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/sign_in_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>

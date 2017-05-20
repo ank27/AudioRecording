@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_light">
+    <RelativeLayout
+        android:id="@+id/progress_layout"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <ProgressBar
+        android:id="@+id/audioProgressBar"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:visibility="visible"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:gravity="center" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="16dp"
+            style="@style/TextViewAppearanceMediumBold"
+            android:layout_centerHorizontal="true"
+            android:text="Sending Audio to server..."
+            android:layout_below="@+id/audioProgressBar"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/audio_layout"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/audio_container"
+            android:layout_width="match_parent"
+            android:background="@color/white"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/no_audio_layout"
+        android:layout_width="match_parent"
+        android:visibility="visible"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/no_audio_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Audio Found"
+            android:textAlignment="center"
+            style="@style/TextViewAppearanceMediumBold"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+    <Button
+        android:id="@+id/record_audio_btn"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:text="Record Audio"
+        android:background="@drawable/button_shape_dark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

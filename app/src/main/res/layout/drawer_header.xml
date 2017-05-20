@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_head"
+    android:layout_width="match_parent"
+    android:layout_height="190dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+    <com.audioapplication.Utils.CircularImageView
+        android:id="@+id/headerImg"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:clickable="false"
+        app:civ_border="true"
+        app:civ_borderColor="#e2e2e2"
+        app:civ_borderWidth="2dp"
+        app:civ_selector="false"
+        app:civ_shadow="false"
+        android:padding="10dp"
+        android:layout_marginBottom="65dp"
+        android:layout_marginLeft="16dp"
+        android:src="@drawable/ic_photo"
+        android:layout_gravity="bottom" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/header_userName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="16dp"
+            android:text="Welcome Ankur"
+            android:textColor="@android:color/white" />
+        <TextView
+            android:id="@+id/header_userEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="Welcome Guest"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</FrameLayout>

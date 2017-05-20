@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:padding="10dp"
+    android:layout_marginTop="100dp"
+    android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/cancel_btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="8dp"
+        android:src="@drawable/com_facebook_close"/>
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="match_parent"
+        android:text="@string/record_audio"
+        android:textSize="18sp"
+        android:layout_centerHorizontal="true"
+        style="@style/TextViewAppearanceLarge"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_below="@+id/text_view"
+        android:id="@+id/audio_image"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/ic_microphone"
+        android:scaleType="centerCrop"
+        android:textColor="@android:color/black" />
+
+    <LinearLayout
+        android:id="@+id/btn_holder"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@+id/audio_image"
+        android:gravity="center_horizontal"
+        android:weightSum="2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+        <TextView
+            android:id="@+id/btn_record"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_shape_fill"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:textColor="@color/white"
+            android:text="Record"
+            android:layout_weight="1"
+            android:gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/btn_stop"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textAllCaps="false"
+            android:padding="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_shape_fill"
+            android:textColor="@color/white"
+            android:text="Stop"
+            android:layout_weight="1"
+            android:gravity="center_horizontal" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/counter_time"
+        android:layout_below="@+id/btn_holder"
+        style="@style/TextViewAppearanceMediumBold"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:text="00:00"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

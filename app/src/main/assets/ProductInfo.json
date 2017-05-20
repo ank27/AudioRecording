@@ -1,0 +1,82 @@
+[
+  {
+    "ProductName": "L'Oreal Paris",
+    "ProductImage": "https://i.ytimg.com/vi/eWuqZvqrY_4/maxresdefault.jpg",
+    "DiscountInfo": "Upto 30% Off on all products",
+    "UsedToday": "4 Times",
+    "Added": "1 day ago",
+    "Coupon": "Loreal30"
+  },
+  {
+    "ProductName": "Mobikwik",
+    "ProductImage": "https://strikebuys.com/wp-content/uploads/Mobikwik-logo.jpg",
+    "DiscountInfo": "Flat 50% off with wallet payment",
+    "UsedToday": "14 Times",
+    "Added": "3 day ago",
+    "Coupon": "Mobikwik50"
+  },
+  {
+    "ProductName": "Amazon",
+    "ProductImage": "https://assets.entrepreneur.com/content/3x2/1300/20160418121933-amazon.jpeg",
+    "DiscountInfo": "Deal of the Day: Upto 85% Off on Deals Every Hour",
+    "UsedToday": "214 Times",
+    "Added": "3 day ago",
+    "Coupon": "AmazonDOD"
+  },
+  {
+    "ProductName": "Dominos",
+    "ProductImage": "http://www.shopickr.com/wp-content/uploads/2015/06/dominos-pizza-order-coupon-bogo-friday-offer-free-pizza-9-2-2015-big.jpg",
+    "DiscountInfo": "Buy 1 Get 1 Free on Regular Pizza",
+    "UsedToday": "247 Times",
+    "Added": "3 day ago",
+    "Coupon": "DominosP"
+  },
+  {
+    "ProductName": "Jabong",
+    "ProductImage": "http://www.dealnloot.com/wp-content/uploads/2015/05/jabong-50-off-payumoney.jpg",
+    "DiscountInfo": "Flat 25% Off on Orders of Rs. 1299 & Above",
+    "UsedToday": "169 Times",
+    "Added": "4 day ago",
+    "Coupon": "JabongT25"
+  },
+  {
+    "ProductName": "Paytm",
+    "ProductImage": "https://assetscdn1.paytm.com/images/catalog/view_item/116169/1493829540298.jpg?imwidth=758&impolicy=hq_80",
+    "DiscountInfo": "Flat 1000 cashback on Domestic Flights",
+    "UsedToday": "269 Times",
+    "Added": "5 day ago",
+    "Coupon": "FLYHIGH"
+  },
+  {
+    "ProductName": "Freecharge",
+    "ProductImage": "http://d152j5tfobgaot.cloudfront.net/wp-content/uploads/2016/01/Freecharge_Cover_Yourstory.jpg",
+    "DiscountInfo": "Pay Electricity Bills in Few Easy Steps with FreeCharge",
+    "UsedToday": "63 Times",
+    "Added": "5 day ago",
+    "Coupon": "Freecharge10T"
+  },
+  {
+    "ProductName": "Groofers",
+    "ProductImage": "https://savinghop.in/wp-content/uploads/2016/08/Grofers-Coupons.jpg",
+    "DiscountInfo": "20% Cashback on First Order (New Users)",
+    "UsedToday": "63 Times",
+    "Added": "6 day ago",
+    "Coupon": "GroofersG3W"
+  },
+  {
+    "ProductName": "Toit brewery bangalore",
+    "ProductImage": "http://images.grabhouse.com/urbancocktail/wp-content/uploads/2015/02/ABC.jpg",
+    "DiscountInfo": "20% off on all beers friday night",
+    "Added": "6 day ago",
+    "UsedToday": "63 Times",
+    "Coupon": "BEER@TOIT"
+  },
+  {
+    "ProductName": "Subway",
+    "ProductImage": "http://static.wixstatic.com/media/fc350e_e38e21e547204e4b83ff18afcab7f300.jpg",
+    "DiscountInfo": "20% off on all products",
+    "Added": "7 day ago",
+    "UsedToday": "63 Times",
+    "Coupon": "Subway@2"
+  }
+]

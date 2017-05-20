@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="2dp"
+    android:background="@color/white"
+    card_view:cardBackgroundColor="@color/white"
+    card_view:contentPadding="8dp"
+    android:layout_margin="@dimen/small_margin"
+    android:layout_marginBottom="50dp"
+    android:elevation="5dp"
+    android:id="@+id/productcard"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/product_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal"
+        android:weightSum="1">
+        <com.audioapplication.Utils.CircularImageView
+            android:id="@+id/audio_image"
+            android:layout_width="68dp"
+            android:background="@drawable/ic_music"
+            android:layout_height="68dp"
+            android:scaleType="centerCrop" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="67dp"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical"
+            android:layout_weight="0.88">
+            <TextView
+                android:id="@+id/file_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/used_by_text"
+                style="@style/TextViewAppearanceMediumBold"
+                android:maxLines="2"
+                android:lines="2"
+                android:text="ABC.wav" />
+            <TextView
+                android:id="@+id/created_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                style="@style/TextViewAppearanceMediumBold"
+                android:layout_below="@+id/file_name"
+                android:text="Created at : 23-May-2017"/>
+        </RelativeLayout>
+    </LinearLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
